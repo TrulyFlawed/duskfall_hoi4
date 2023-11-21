@@ -13,10 +13,10 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#roadmap">Project Roadmap</a></li>
-    <li><a href="#license">Project License</a></li>
-    <li><a href="#contact">Contact Information</a></li>
-    <li><a href="#acknowledgments">Project Acknowledgments</a></li>
+    <li><a href="#project-roadmap">Project Roadmap</a></li>
+    <li><a href="#project-license-information">Project License Information</a></li>
+    <li><a href="#contact-information">Contact Information</a></li>
+    <li><a href="#project-acknowledgments">Project Acknowledgments</a></li>
   </ol>
 </details>
 
