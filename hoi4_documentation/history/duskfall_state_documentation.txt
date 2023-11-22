@@ -1,0 +1,126 @@
+Duskfall states will follow a particular format in regards to how we write states to standardize and make it easier for the developers, even if things we do or write aren't necessary.
+If you aren't quite sure what you're looking at, go look at the file "state_documentation.md" for more info.
+
+An example of a statefile written for the Duskfall mod will look something like this:
+[NOTE]: I will provide details on how exactly it is formatted and why below the code
+
+# 8-Luxemburg.txt
+state = {
+	# Mandatory Arguments
+	id = 8
+	name = STATE_8 # Luxembourg
+	manpower = 0 # 0 People
+	state_category = wasteland
+	provinces = { 6583 }
+	
+	# Optional Arguments
+	impassable = no
+	resources = {
+		steel = 0
+		aluminium = 0
+		tungsten = 0
+		chromium = 0
+		rubber = 0
+		oil = 0
+	}
+	local_supplies = 0.0
+	buildings_max_level_factor = 1
+	
+	# History Arguments
+	history = {
+		# Timestamps go in a YYYY.MM.DD Format
+		1936.1.1 { # January 1st, 1936
+			# Physical Map
+			owner = LUX # The Grand Duchy of Luxembourg
+			controller = LUX # The Grand Duchy of Luxembourg
+			
+			# Intangible Map
+			add_core_of = LUX # The Grand Duchy of Luxembourg
+			add_claim_by = LUX # The Grand Duchy of Luxembourg
+			
+			# Victory Points go in order of { province value }
+			victory_points = { 6583 0 } # Luxembourg
+			
+			buildings = {
+				# State Buildings
+				infrastructure = 0 # Max Level: 5
+				air_base = 0 # Max Level: 10
+				anti_air_building = 0 # Max Level: 5
+				radar_station = 0 # Max Level: 6
+				
+				# Shared Buildings
+				arms_factory = 0 # Max Level: 20
+				industrial_complex = 0 # Max Level: 20
+				dockyard = 0 # Max Level: 20
+				synthetic_refinery = 0 # Max Level: 3
+				fuel_silo = 0 # Max Level: 1
+				rocket_site = 0 # # Max Level: 5
+				nuclear_reactor = 0 # Max Level: 1
+				
+				# Provincial Buildings
+				6583 = {
+					naval_base = 0 # Max Level: 10
+					bunker = 0 # Max Level: 10
+					coastal_bunker = 0 # Max Level: 10
+				}
+			}
+		}
+	}
+}
+
+The following code below is just the example above but with every changed value describing what should be put there when modding a state.
+
+# State_Id-State_Name.fileextension
+state = {
+	# Mandatory Arguments
+	id = Value
+	name = State_Id # Localized State Name
+	manpower = Value # Readable Population Value (ex. 1,000,000)
+	state_category = State Category
+	provinces = { value value value }
+	
+	# Optional Arguments
+	impassable = yes/no
+	resources = {
+		steel = Value
+		aluminium = Value
+		tungsten = Value
+		chromium = Value
+		rubber = Value
+		oil = Value
+	}
+	local_supplies = Value
+	buildings_max_level_factor = Value
+	
+	# History Arguments
+	history = {
+		# Timestamps go in a YYYY.MM.DD Format
+		Timestamp { # Timestamp (in word form)
+			# Physical Map
+			owner = Country-Tag # Country Name
+			controller = Country-Tag # Country Name
+			
+			# Intangible Map
+			add_core_of = Country-Tag # Country Name
+			add_claim_by = Country-Tag # Country Name
+			
+			# Victory Points go in order of { province value }
+			victory_points = { province-value value } # victory-point-localization
+			
+			buildings = {
+				# State Buildings
+				building-type = value # building-type-max-level
+				
+				# Shared Buildings
+				building-type = value # building-type-max-level
+				
+				# Provincial Buildings
+				province-value = {
+					building-type = value # building-type-max-level
+				}
+			}
+		}
+	}
+}
+
+Of course, it is always possible for you to omit some of these things if you believe they aren't necessary. Such as the comments after the values (such as after the tags, where it may be a bit much) or even certain arguments like "add_claim_by" or "controller" (especially since in my example those are unnecessary). The reason I include all of those entirely unnecessary values that could have just been omitted entirely is just to simply standardize how a modded state will look, and I will not be omitting any values found in my example for my mod, despite the fact that it somewhat bloats the sizes of the files and therefore makes the mod slower. If this performance reaches a point where it becomes unbearable I may consider changing my ideas to omit any unnecessary values, but for now it will stay.
