@@ -2,7 +2,7 @@ Duskfall states will follow a particular format in regards to how we write state
 If you aren't quite sure what you're looking at, go look at the file "state_documentation.md" for more info.
 
 An example of a statefile written for the Duskfall mod will look something like this:
-[NOTE]: I will provide details on how exactly it is formatted and why below the code
+[NOTE: I will provide details on how exactly it is formatted and why below the code]
 
 # 8-Luxemburg.txt
 state = {
@@ -10,7 +10,7 @@ state = {
 	id = 8
 	name = STATE_8 # Luxembourg
 	manpower = 0 # 0 People
-	state_category = wasteland
+	state_category = wasteland # 0
 	provinces = { 6583 }
 	
 	# Optional Arguments
@@ -23,8 +23,8 @@ state = {
 		rubber = 0
 		oil = 0
 	}
-	local_supplies = 0.0
-	buildings_max_level_factor = 1
+	local_supplies = 0.000
+	buildings_max_level_factor = 1.000
 	
 	# History Arguments
 	history = {
@@ -70,57 +70,87 @@ state = {
 
 The following code below is just the example above but with every changed value describing what should be put there when modding a state.
 
-# State_Id-State_Name.fileextension
+# state_id-State_localized-name.txt
 state = {
 	# Mandatory Arguments
-	id = Value
-	name = State_Id # Localized State Name
-	manpower = Value # Readable Population Value (ex. 1,000,000)
-	state_category = State Category
-	provinces = { value value value }
+	id = value
+	name = state_id # localized_state_name
+	manpower = value # readable_manpower [ex. 892,173]
+	state_category = state_category_type # building_slots_value
+	provinces = { province_id province_id province_id }
 	
 	# Optional Arguments
 	impassable = yes/no
 	resources = {
-		steel = Value
-		aluminium = Value
-		tungsten = Value
-		chromium = Value
-		rubber = Value
-		oil = Value
+		resource_type = value [ex. oil = 17]
 	}
-	local_supplies = Value
-	buildings_max_level_factor = Value
+	local_supplies = value
+	buildings_max_level_factor = value
 	
 	# History Arguments
 	history = {
 		# Timestamps go in a YYYY.MM.DD Format
-		Timestamp { # Timestamp (in word form)
+		timestamp { # word_form_timestamp [ex. January 1st, 1936]
 			# Physical Map
-			owner = Country-Tag # Country Name
-			controller = Country-Tag # Country Name
+			owner = country_tag # country_name
+			controller = country_tag # country_name
 			
 			# Intangible Map
-			add_core_of = Country-Tag # Country Name
-			add_claim_by = Country-Tag # Country Name
+			add_core_of = country_tag # country_name
+			add_claim_by = country_tag # country_name
 			
 			# Victory Points go in order of { province value }
-			victory_points = { province-value value } # victory-point-localization
+			victory_points = { province_id value } # localized_victory_point_name
 			
 			buildings = {
 				# State Buildings
-				building-type = value # building-type-max-level
+				building_type = value # building-type-max-level [ex. infrastructure = 3 # Max Level: 5]
 				
 				# Shared Buildings
-				building-type = value # building-type-max-level
+				building_type = value # building-type-max-level [ex. arms_factory = 7 # Max Level: 20]
 				
 				# Provincial Buildings
-				province-value = {
-					building-type = value # building-type-max-level
+				province_id = {
+					building_type = value # building-type-max-level [ex. bunker = 4 # Max Level: 10]
 				}
 			}
 		}
 	}
 }
 
-Of course, it is always possible for you to omit some of these things if you believe they aren't necessary. Such as the comments after the values (such as after the tags, where it may be a bit much) or even certain arguments like "add_claim_by" or "controller" (especially since in my example those are unnecessary). The reason I include all of those entirely unnecessary values that could have just been omitted entirely is just to simply standardize how a modded state will look, and I will not be omitting any values found in my example for my mod, despite the fact that it somewhat bloats the sizes of the files and therefore makes the mod slower. If this performance reaches a point where it becomes unbearable I may consider changing my ideas to omit any unnecessary values, but for now it will stay.
+Of course, this method of standardization is rather unoptimized, given all of the unnecessary values included.
+If you are worried about performance then I would highly suggest optmizing it by removing unnecessary junk, and as such, I will give such optimized example below:
+[NOTE: optimization includes removing unneeded whitespace, as it reduces file size further, at cost of readability]
+
+state={
+	id=8
+	name=STATE_8
+	manpower=0
+	state_category=wasteland
+	provinces={6583}
+	resources={
+		steel=1
+		aluminium=4
+	}
+	history={
+		1936.1.1{
+			owner=LUX
+			add_core_of=LUX
+			victory_points={6583 0}
+			buildings={
+				infrastructure=3
+				air_base=2
+				6583={
+					bunker=1
+				}
+			}
+		}
+	}
+}
+
+I have changed some values so as to ensure that some things stay after optimization (such as building levels), but beyond that all unnecessary values to the state are gone.
+If you are really trying to hyper-optimize your state files, remove indentation and try to limit any unnecessary whitespace (but not all, because Hearts of Iron IV uses whitespace to differentiate between provinces and other values.
+Theoretically you could sacrifice all readability by putting all of the code on one line, resulting in minimal whitespace (mainly due to indents and seperate lines) and the highest possible optimization, but I wouldn't recommend it.
+Either way, my mod with just the one state file with the first example listed was a whopping 1.61 kilobytes large, and with the optmized example in the state file? 433 bytes.
+The unoptimized mod size is over 3.7x larger than optimized mod, if you are making large state changes, I would highly recommend optimizing your file.
+(The mod size for all code on one line was 380 bytes, smaller, yes, but not enough to justify doing in my opinion)
